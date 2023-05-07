@@ -43,7 +43,7 @@ body {
 .v1_92 {
   width: 646px;
   height: 821px;
-  background: url("/static/images/signup.png");
+  background: url("/static/images/login.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
