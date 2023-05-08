@@ -43,7 +43,7 @@ body {
 .v48_123 {
   width: 69px;
   height: 69px;
-  background: url("../images/v48_123.png");
+  background: url("/static/images/usertag.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -53,41 +53,10 @@ body {
   left: 1268px;
   overflow: hidden;
 }
-.v48_124 {
-  width: 69px;
-  height: 69px;
-  background: url("../images/v48_124.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  overflow: hidden;
-}
-.v48_125 {
-  width: 69px;
-  height: 69px;
-  background: rgba(255,255,255,1);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-}
-.v48_126 {
-  width: 24px;
-  height: 24px;
-  background: rgba(255,255,255,1);
-  opacity: 1;
-  position: absolute;
-  top: 20px;
-  left: 22px;
-}
+
 .v112_6 {
   width: 287px;
   height: 57px;
-  background: url("../images/v112_6.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -126,7 +95,6 @@ body {
 .v112_17 {
   width: 287px;
   height: 57px;
-  background: url("../images/v112_17.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -179,7 +147,6 @@ body {
 .v124_88 {
   width: 287px;
   height: 57px;
-  background: url("../images/v124_88.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -232,7 +199,6 @@ body {
 .v112_21 {
   width: 287px;
   height: 57px;
-  background: url("../images/v112_21.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -285,7 +251,6 @@ body {
 .v112_33 {
   width: 293px;
   height: 46px;
-  background: url("../images/v112_33.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -324,7 +289,6 @@ body {
 .v112_37 {
   width: 293px;
   height: 46px;
-  background: url("../images/v112_37.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -363,7 +327,6 @@ body {
 .v112_28 {
   width: 293px;
   height: 46px;
-  background: url("../images/v112_28.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -416,7 +379,6 @@ body {
 .v112_40 {
   width: 293px;
   height: 46px;
-  background: url("../images/v112_40.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -493,7 +455,6 @@ body {
 .v112_92 {
   width: 969px;
   height: 104px;
-  background: url("../images/v112_92.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -506,7 +467,6 @@ body {
 .v112_88 {
   width: 187px;
   height: 41px;
-  background: url("../images/v112_88.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -545,7 +505,6 @@ body {
 .v112_71 {
   width: 293px;
   height: 46px;
-  background: url("../images/v112_71.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -584,7 +543,6 @@ body {
 .v112_77 {
   width: 293px;
   height: 46px;
-  background: url("../images/v112_77.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -635,7 +593,6 @@ body {
 .v112_93 {
   width: 969px;
   height: 105px;
-  background: url("../images/v112_93.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -648,7 +605,6 @@ body {
 .v112_94 {
   width: 187px;
   height: 41px;
-  background: url("../images/v112_94.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -701,7 +657,6 @@ body {
 .v112_98 {
   width: 293px;
   height: 46px;
-  background: url("../images/v112_98.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -740,7 +695,6 @@ body {
 .v112_101 {
   width: 293px;
   height: 46px;
-  background: url("../images/v112_101.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -805,7 +759,6 @@ body {
 .v112_133 {
   width: 969px;
   height: 104px;
-  background: url("../images/v112_133.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -818,7 +771,6 @@ body {
 .v112_134 {
   width: 187px;
   height: 41px;
-  background: url("../images/v112_134.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -871,7 +823,6 @@ body {
 .v112_138 {
   width: 293px;
   height: 46px;
-  background: url("../images/v112_138.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -910,7 +861,6 @@ body {
 .v112_141 {
   width: 293px;
   height: 46px;
-  background: url("../images/v112_141.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;

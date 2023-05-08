@@ -65,7 +65,6 @@ a {
 .v1_62 {
   width: 520px;
   height: 584px;
-  background: url("../images/v1_62.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -78,7 +77,6 @@ a {
 .v1_63 {
   width: 190px;
   height: 48px;
-  background: url("../images/v1_63.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -129,7 +127,6 @@ a {
 .v1_67 {
   width: 486px;
   height: 57px;
-  background: url("../images/v1_67.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -154,7 +151,7 @@ a {
   overflow: hidden;
 }
 .v1_69 {
-  width: 50px;
+  width: 200px;
   color: rgba(0,0,0,1);
   position: absolute;
   top: 17px;
@@ -168,13 +165,12 @@ a {
 .v1_70 {
   width: 486px;
   height: 57px;
-  background: url("../images/v1_70.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   opacity: 1;
   position: absolute;
-  top: 189px;
+  top: 160px;
   left: 17px;
   overflow: hidden;
 }
@@ -193,7 +189,7 @@ a {
   overflow: hidden;
 }
 .v1_72 {
-  width: 91px;
+  width: 200px;
   color: rgba(0,0,0,1);
   position: absolute;
   top: 17px;
@@ -205,11 +201,11 @@ a {
   text-align: left;
 }
 .v1_73 {
-  width: 126px;
+  width: 150px;
   color: rgba(0,0,0,1);
   position: absolute;
-  top: 265px;
-  left: 197px;
+  top: 240px;
+  left: 330px;
   font-family: Inter;
   font-weight: Light;
   font-size: 15px;
@@ -254,7 +250,6 @@ a {
 }
 .v1_76 {
   width: 520px;
-  background: url("../images/v1_76.png");
   opacity: 1;
   position: absolute;
   top: 384px;
@@ -264,7 +259,7 @@ a {
 .v1_77 {
   width: 59px;
   height: 59px;
-  background: url("../images/v1_77.png");
+  background: url("/static/images/facebook.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -274,43 +269,11 @@ a {
   left: 385px;
   overflow: hidden;
 }
-.v1_78 {
-  width: 59px;
-  height: 59px;
-  background: rgba(242,242,242,1);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  border-top-left-radius: 29px;
-  border-top-right-radius: 29px;
-  border-bottom-left-radius: 29px;
-  border-bottom-right-radius: 29px;
-  overflow: hidden;
-}
-.v1_79 {
-  width: 37px;
-  height: 37px;
-  background: rgba(255,255,255,1);
-  opacity: 1;
-  position: absolute;
-  top: 10px;
-  left: 11px;
-  overflow: hidden;
-}
-.v1_80 {
-  width: 20px;
-  height: 35px;
-  background: rgba(0,0,0,1);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 7px;
-}
+
 .v1_81 {
   width: 59px;
   height: 59px;
-  background: url("../images/v1_81.png");
+  background: url("/static/images/google.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -320,43 +283,12 @@ a {
   left: 73px;
   overflow: hidden;
 }
-.v1_82 {
-  width: 59px;
-  height: 59px;
-  background: rgba(242,242,242,1);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  border-top-left-radius: 29px;
-  border-top-right-radius: 29px;
-  border-bottom-left-radius: 29px;
-  border-bottom-right-radius: 29px;
-  overflow: hidden;
-}
-.v1_83 {
-  width: 35px;
-  height: 35px;
-  background: rgba(255,255,255,1);
-  opacity: 1;
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  overflow: hidden;
-}
-.v1_84 {
-  width: 33px;
-  height: 33px;
-  background: rgba(0,0,0,1);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-}
+
+
 .v1_85 {
   width: 59px;
   height: 59px;
-  background: url("../images/v1_85.png");
+  background: url("/static/images/apple.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -365,37 +297,4 @@ a {
   top: 468px;
   left: 229px;
   overflow: hidden;
-}
-.v1_86 {
-  width: 59px;
-  height: 59px;
-  background: rgba(242,242,242,1);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  border-top-left-radius: 29px;
-  border-top-right-radius: 29px;
-  border-bottom-left-radius: 29px;
-  border-bottom-right-radius: 29px;
-  overflow: hidden;
-}
-.v1_87 {
-  width: 37px;
-  height: 37px;
-  background: rgba(255,255,255,1);
-  opacity: 1;
-  position: absolute;
-  top: 9px;
-  left: 11px;
-  overflow: hidden;
-}
-.v1_88 {
-  width: 29px;
-  height: 35px;
-  background: rgba(0,0,0,1);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 3px;
 }

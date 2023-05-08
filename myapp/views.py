@@ -12,12 +12,12 @@ model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'SavedMode
 
 
 def predicted(request):
-   #property_name = request.POST.get('property_name')
-   #price = request.POST.get('price')
-   #description = request.POST.get('description')
-   #latitude = request.POST.get('latitude')
-   #longitude = request.POST.get('longitude')
-   #address = request.POST.get('address')
+   property_name = request.POST.get('property_name')
+   price = request.POST.get('price')
+   description = request.POST.get('description')
+   latitude = request.POST.get('latitude')
+   longitude = request.POST.get('longitude')
+   address = request.POST.get('address')
    area = request.POST.get('area')
    garage_space = request.POST.get('garage_space')
    parking_space = request.POST.get('parking_space')
@@ -28,7 +28,7 @@ def predicted(request):
    bedrooms=request.POST.get('bedrooms')
    bathrooms=request.POST.get('bathrooms')
    floors=request.POST.get('floors')
-   '''context= {
+   context= {
 'property_name': property_name ,
 'price': price ,
 'description': description ,
@@ -45,13 +45,13 @@ def predicted(request):
 'bedrooms': bedrooms ,
 'bathrooms': bathrooms ,
 'floors': floors 
-}'''
+}
    with open(model_path, 'rb') as f:
     model = pickle.load(f)
    data = [area,garage_space,parking_space,bathrooms,bedrooms,floors,association,cooling,heating,spa]
    new_data=[data,data]
    predictions = model.predict(new_data)
-   context={'EstimatedPrice': predictions[0]}
+   context['EstimatedPrice']= predictions[0]
    return render(request, 'listform.html',context)
 
 
@@ -74,7 +74,10 @@ def signuppage(request):
 
 
 def listform(request):
-  return render(request, 'listform.html')
+  if request.user.is_authenticated:
+    return render(request, 'listform.html')
+  else:
+        return redirect('/loginpage')
 
 
 def logoutuser(request):
@@ -176,9 +179,9 @@ def signup(request):
           user = User.objects.create_user(username=username, email=email, password=password)
           profile = UserProfile.objects.create(user=user, first_name=firstname, last_name=lastname, phone_number=phonenumber)
           login(request, user)
-          return HttpResponse('success')
+          return redirect('/info')
         else:
-          return HttpResponse('passwords not same')
+          return redirect('/signup')
     
     # If the request method is GET, render the signup page template
-    return HttpResponse('failed')
+    return redirect('/signup')
