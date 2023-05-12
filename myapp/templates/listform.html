@@ -2,25 +2,26 @@
 <html>
     <script>
         function predictForm() {
-          // Get the form element
           var form = document.getElementById('predict');
           
-          // Submit the form
           form.submit();
         }
+        function submitForm(action) {
+    var form = document.getElementById('predict');
+    form.action = action;
+    form.submit();
+  }
     </script>
     <style>
       a {
           text-decoration: none;
         }
         
-        /* Add this style to remove the box outline for input fields */
         input {
           border: none;
           outline: none;
         }
         
-        /* Add this style to position the placeholder text within the input fields */
         .input-wrapper {
           position: relative;
         }
@@ -33,6 +34,10 @@
           opacity: 1;
           transition: opacity 0.2s ease;
         }
+        select {
+  border: none; color: lightgrey;
+}
+
       </style>
     <head>
         <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" /><link href="/static/listform.css" rel="stylesheet" />
@@ -56,7 +61,7 @@
             </div>
             <div class="v6_634">
                 <div class="v6_635"></div>
-                <input type="text" class="v6_636" name="description" placeholder="Description" value="{% if description %}{{ description }}{% endif %}" required>
+                <input type="text" class="v6_636" name="description" placeholder="Description" value="{% if description %}{{ description }}{% endif %}" >
             </div>
             <div class="v6_637">
                 <div class="v6_638"></div>
@@ -67,19 +72,20 @@
             </div>
             <div class="v6_564">
                 <div class="v6_565"></div>
-                <input type="number" step="any" class="v6_566" name="latitude" placeholder="Latitude" value="{% if latitude %}{{ latitude }}{% endif %}"required>
+                <input type="text"  class="v6_566" name="latitude" placeholder="Location" value="{% if latitude %}{{ latitude }}{% endif %}"required>
             </div>
             <div class="v6_567">
                 <div class="v6_568"></div>
-                <input type="number" step="any" class="v6_569" name="longitude" placeholder="Longitude" value="{% if longitude%}{{ longitude}}{% endif %}"required>
+                <input type="number"  class="v6_569" name="longitude" placeholder="Living Area SqFt" value="{% if longitude%}{{ longitude}}{% endif %}"required>
             </div>
             <div class="v6_577">
                 <div class="v6_578"></div>
-                <input type="number" step="any" class="v6_579" name="parking_space" placeholder="Parking Space" value="{% if parking_space %}{{ parking_space }}{% endif %}"required>
+                <input type="number"  class="v6_579" name="parking_space" placeholder="Num Of Patio And Porch Features" value="{% if parking_space %}{{ parking_space }}{% endif %}"required>
             </div>
             <div class="v48_11">
                 <div class="v48_12"></div>
                 <span class="v48_13">{% if EstimatedPrice %}{{ EstimatedPrice }}{% else %}Estimated Price{% endif %}</span>
+                <input type="number" name="EstimatedPrice" value="{{EstimatedPrice}}" hidden>
             </div>
             <div class="v150_2">
                 <div class="v150_3">
@@ -93,49 +99,55 @@
             </div>
             <div class="v6_580">
                 <div class="v6_581"></div>
-                <input type="number" step="any" class="v6_582" name="garage_space" placeholder="Garage Space" value="{% if garage_space %}{{ garage_space }}{% endif %}"required>
+                <input type="number"  class="v6_582" name="garage_space" placeholder="Num Of Parking Features" value="{% if garage_space %}{{ garage_space }}{% endif %}"required>
 
                 
               </div>
               <div class="v6_598">
                 <div class="v6_599"></div>
-                <input type="number" step="any" class="v6_600" name="cooling" placeholder="Cooling" min="0" max="1" value="{% if cooling %}{{ cooling }}{% endif %}"required>
+                <input type="number"  class="v6_600" name="cooling" placeholder="Latest Sale Year"  value="{% if cooling %}{{ cooling }}{% endif %}"required>
 
             
               </div>
               <div class="v6_604">
                 <div class="v6_605"></div>
-                <input type="number" step="any" class="v6_606" name="heating" placeholder="Heating" min="0" max="1" value="{% if heating %}{{ heating }}{% endif %}"required>
+                <input type="number"  class="v6_606" name="heating" placeholder="Num Of Security Features"  value="{% if heating %}{{ heating }}{% endif %}"required>
 
                 
               </div>
               <div class="v6_610">
                 <div class="v6_611"></div>
-                <input type="number" step="any" class="v6_612" name="association" placeholder="Association" min="0" max="1" value="{% if association %}{{ association }}{% endif %}"required>
-                
+                <select class="v6_612" name="association" value="{% if association %}{{ association }}{% endif %}" required>
+                  <option value="" disabled selected>Has View</option>
+                  <option value="Yes"{% if association == "Yes" %} selected{% endif %}>Yes</option>
+                  <option value="No"{% if association == "No" %} selected{% endif %}>No</option>
+                </select>
               </div>
               <div class="v6_616">
                 <div class="v6_617"></div>
-                <input type="number" step="any" class="v6_618" name="bedrooms" placeholder="Bedrooms" value="{% if bedrooms %}{{ bedrooms }}{% endif %}"required>
+                <input type="number"  class="v6_618" name="bedrooms" placeholder="Bedrooms" value="{% if bedrooms %}{{ bedrooms }}{% endif %}"required>
                 
               </div>
               <div class="v6_622">
                 <div class="v6_623"></div>
-                <input type="number"  step="any" class="v6_624" name="bathrooms" placeholder="Bathrooms" value="{% if bathrooms %}{{ bathrooms }}{% endif %}"required>
+                <input type="number"   class="v6_624" name="bathrooms" placeholder="Bathrooms" value="{% if bathrooms %}{{ bathrooms }}{% endif %}"required>
                 
               </div>
               <div class="v6_628">
                 <div class="v6_629"></div>
-                <input type="number" step="any" class="v6_630" name="spa" placeholder="Spa" min="0" max="1" value="{% if spa %}{{ spa }}{% endif %}"required>
-                
+                <select class="v6_630" name="spa" value="{% if spa %}{{ spa }}{% endif %}" required>
+                  <option value="" disabled selected>Has SPA</option>
+                  <option value="Yes"{% if association == "Yes" %} selected{% endif %}>Yes</option>
+                  <option value="No"{% if association == "No" %} selected{% endif %}>No</option>
+                </select>
               </div>
               <div class="v6_574">
                 <div class="v6_575"></div>
-                <input type="number" step="any" class="v6_576" name="area" placeholder="Area" value="{% if area %}{{ area }}{% endif %}"required>
+                <input type="number"  class="v6_576" name="area" placeholder="Lot Size SqFt" value="{% if area %}{{ area }}{% endif %}"required>
               </div>
               <div class="v6_570">
                 <div class="v6_571"></div>
-                <input type="text" class="v6_572" name="address" placeholder="Address" value="{% if address %}{{ address }}{% endif %}"required>
+                <input type="text" class="v6_572" name="address" placeholder="Address" value="{% if address %}{{ address }}{% endif %}">
               </div>
               <button type="submit" style="display: none;"></button>
               </form>
@@ -143,7 +155,7 @@
                 
               <div class="v112_2">
                 <div class="v112_3"></div>
-                <span class="v112_4">SUBMIT</span>
+                <a href="#" onclick="submitForm('/submit/')" class="v112_4">SUBMIT</a>
               </div>
               
         </div>

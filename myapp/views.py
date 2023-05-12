@@ -7,7 +7,40 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 import pickle
 import os
+from .models import Listing,userwishlist
+import random
+
 model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'SavedModels', 'modelsrandom_forest_regressor.pkl')
+
+def deleteproperty(request):
+  if request.user.is_authenticated: 
+   listings = Listing.objects.filter(listing_id=request.GET.get('id'))
+   listings.delete()
+   listings2 = userwishlist.objects.filter(listingid=request.GET.get('id'))
+   listings2.delete()
+   return redirect('/listings')
+  else:
+   return redirect('/login') 
+
+
+
+
+
+def wishlistproperty(request):
+ if request.user.is_authenticated:
+   user = request.user
+   listing_id = request.GET.get('id')
+   if userwishlist.objects.filter(user=user, listingid=listing_id).exists():
+       listings = userwishlist.objects.filter(listingid=listing_id)
+       listings.delete()
+   else:
+      wishlist=userwishlist(user=user,listingid=listing_id)
+      wishlist.save()
+   return redirect('/wishlist')
+ else:
+   return redirect('/loginpage') 
+
+
 
 
 
@@ -46,9 +79,12 @@ def predicted(request):
 'bathrooms': bathrooms ,
 'floors': floors 
 }
+   choose={'Yes':1,'No':0}
+   spa=choose[spa]
+   association=choose[association]
    with open(model_path, 'rb') as f:
     model = pickle.load(f)
-   data = [area,garage_space,parking_space,bathrooms,bedrooms,floors,association,cooling,heating,spa]
+   data = [longitude,bathrooms,area,bedrooms,floors,random.randint(4,10),spa,association,parking_space,garage_space,cooling,heating]
    new_data=[data,data]
    predictions = model.predict(new_data)
    context['EstimatedPrice']= predictions[0]
@@ -57,20 +93,137 @@ def predicted(request):
 
 
 
+
+
+def generate_listing_id():
+    while True:
+        listing_id = random.randint(10000, 99999)
+
+        if not Listing.objects.filter(listing_id=listing_id).exists():
+            return listing_id
+        
+
+
+
+
+def submit(request):
+   if request.method == 'POST':
+        listing_id = generate_listing_id() 
+        user = request.user
+        property_name = request.POST.get('property_name')
+        estimated_price = request.POST.get('EstimatedPrice')
+        price = request.POST.get('price')
+        description = request.POST.get('description')
+        location = request.POST.get('latitude')
+        feature = request.POST.get('longitude')
+        address = request.POST.get('address')
+        area = request.POST.get('area')
+        garage_space = request.POST.get('garage_space')
+        parking_space = request.POST.get('parking_space')
+        spa = request.POST.get('spa')
+        association = request.POST.get('association')
+        heating=request.POST.get('heating')
+        cooling=request.POST.get('cooling')
+        bedrooms=request.POST.get('bedrooms')
+        bathrooms=request.POST.get('bathrooms')
+        floors=request.POST.get('floors')
+        listing = Listing(listing_id=listing_id, user=user, property_name=property_name, estimated_price=estimated_price,price=price,
+                          description=description,location=location,feature=feature,address=address,area=area,garage_space=garage_space,
+                          parking_space=parking_space,spa=spa,association=association,heating=heating,cooling=cooling,bedrooms=bedrooms,
+                          bathrooms=bathrooms,floors=floors)
+        listing.save()
+        return redirect('/listings')  
+   return redirect('/info')
+
+
+
+
+
+def aboutus(request):
+   return render(request, 'aboutus.html')
+
+
+
+
+
 def home1(request):
-  return render(request,'home1.html')
+  if request.user.is_authenticated:
+     context={'authenticated':1}
+     return render(request,'home1.html',context)
+  else:
+     return render(request,'home1.html')
 
 
-def home2(request):
-  return render(request,'home2.html')
+
+
+
+def blog(request):
+   return render(request,'blog.html')
+'''def home2(request):
+  if request.user.is_authenticated:
+     context={'authenticated':1}
+     return render(request,'home2.html',context)
+  else:
+     return render(request,'home2.html')'''
+
+
+
 
 
 def loginpage(request):
+ if request.user.is_authenticated:
+  return redirect('/info')
+ else:
   return render(request, 'login.html')
 
 
+
+
+
+
+def buypage(request):
+  listings = Listing.objects.all()
+
+  data = [{'property_name': listing.property_name, 'estimated_price': listing.estimated_price ,'id': listing.listing_id} for listing in listings]
+  context = {'data': data}
+  if request.user.is_authenticated:
+     context['authenticated']=1
+  if len(context) > 0:
+    return render(request, 'buypage.html',context)
+  else:
+    return render(request, 'buypage.html')
+  
+
+
+
+
+
 def signuppage(request):
+ if request.user.is_authenticated:
+  return redirect('/info')
+ else:
   return render(request, 'signuppage.html')
+
+
+
+
+
+
+def property(request):
+  id=request.GET.get('id')
+  listing= Listing.objects.filter(listing_id=id)
+  context={'data':listing[0]}
+  if request.user.is_authenticated:
+     context['authenticated']=1
+     user_profile = context['data'].user.userprofile
+     context['no']=user_profile.phone_number
+  if request.user==listing[0].user:
+     context['usersame']=1
+  return render(request, 'property.html',context)
+
+
+
+
 
 
 def listform(request):
@@ -80,9 +233,55 @@ def listform(request):
         return redirect('/loginpage')
 
 
+
+
+
+
+def wishlist(request):
+  if request.user.is_authenticated:
+    wishlistings = userwishlist.objects.filter(user=request.user)
+    listing_ids = [wishlist.listingid for wishlist in wishlistings]
+    listings = Listing.objects.filter(listing_id__in=listing_ids)
+    data = [{'property_name': listing.property_name, 'estimated_price': listing.estimated_price ,'id': listing.listing_id} for listing in listings]
+    context = {'data': data}
+    if len(context) > 0:
+      return render(request, 'wishlist.html',context)
+    else:
+      return render(request, 'wishlist.html')
+  else:
+        return redirect('/loginpage')
+
+
+
+
+
+
+def listings(request):
+    if request.user.is_authenticated:
+        listings = Listing.objects.filter(user=request.user)
+
+        # Create a list of dictionaries containing the property name and estimated price for each listing
+        data = [{'property_name': listing.property_name, 'estimated_price': listing.estimated_price ,'id': listing.listing_id} for listing in listings]
+        context = {'data': data}
+        if len(context) > 0:
+          return render(request, 'listings.html',context)
+        else:
+          return render(request, 'listings.html')
+           
+    else:
+        return redirect('/loginpage')
+  
+
+
+
+
+
 def logoutuser(request):
   logout(request)
   return redirect('/loginpage')
+
+
+
 
 
 def info(request):
@@ -104,24 +303,29 @@ def info(request):
 
 
 
+
+
+
 def signin(request):
     if request.method == 'POST':
         username = request.POST.get('email')
         password = request.POST.get('password')
 
-        # Authenticate user
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            # User authentication successful
             login(request, user)
             
     
-            return redirect('/info')
+            return redirect('/home1')
         else:
             return redirect('/loginpage')
     else:
         return HttpResponse(request.method)
+
+
+
+
 
 
 
@@ -138,6 +342,9 @@ def updatenumber(request):
    
 
 
+
+
+
 def updateemail(request):
    new_email_address=request.POST['new_email_address']
    confirm_email_address=request.POST['confirm_email_address']
@@ -150,6 +357,10 @@ def updateemail(request):
         user.save()
         return redirect('/logoutuser')
    
+
+
+
+
 
 def updatepassword(request):
    new_password=request.POST['new_password']
@@ -164,6 +375,8 @@ def updatepassword(request):
    
 
 
+
+
 def signup(request):
     
     if request.method == 'POST':
@@ -174,14 +387,11 @@ def signup(request):
         firstname = request.POST['first_name']
         lastname = request.POST['last_name']
         phonenumber = request.POST['phone_number']
-        # Create a new user
         if confirmpassword == password:
           user = User.objects.create_user(username=username, email=email, password=password)
           profile = UserProfile.objects.create(user=user, first_name=firstname, last_name=lastname, phone_number=phonenumber)
-          login(request, user)
-          return redirect('/info')
+          return redirect('/loginpage')
         else:
           return redirect('/signup')
     
-    # If the request method is GET, render the signup page template
     return redirect('/signup')

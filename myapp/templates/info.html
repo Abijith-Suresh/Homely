@@ -1,24 +1,18 @@
 <!DOCTYPE html><html>
     <script>
         function updatenumberForm() {
-          // Get the form element
           var form = document.getElementById('updatenumber');
           
-          // Submit the form
           form.submit();
         }
         function updateemailForm() {
-          // Get the form element
           var form = document.getElementById('updateemail');
           
-          // Submit the form
           form.submit();
         }
         function updatepasswordForm() {
-          // Get the form element
           var form = document.getElementById('updatepassword');
           
-          // Submit the form
           form.submit();
         }
       </script>
@@ -32,13 +26,11 @@
         text-decoration: none;
       }
       
-      /* Add this style to remove the box outline for input fields */
       input {
         border: none;
         outline: none;
       }
       
-      /* Add this style to position the placeholder text within the input fields */
       .input-wrapper {
         position: relative;
       }
@@ -81,21 +73,21 @@
             </div>
             <div class="v112_33">
                 <div class="v112_34"></div>
-                <span class="v112_35">{{ first_name }}</span>
+                <span class="v112_35">First Name:  {{ first_name }}</span>
             </div>
             <div class="v112_37">
                 <div class="v112_38"></div>
-                <span class="v112_39">{{ phone_number }}</span>
+                <span class="v112_39">Phone Number:  {{ phone_number }}</span>
             </div>
             <div class="v112_28">
                 <div class="v112_29"></div>
                 <div class="v112_36"></div>
-                <span class="v112_30">{{ last_name }}</span>
+                <span class="v112_30">Last Name: {{ last_name }}</span>
             </div>
             <div class="v112_40">
                 <div class="v112_41"></div>
                 <div class="v112_42"></div>
-                <span class="v112_43">{{ email }}</span>
+                <span class="v112_43">Email: {{ email }}</span>
             </div>
             
             <span class="v112_31">Personal Details</span>

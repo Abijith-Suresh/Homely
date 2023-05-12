@@ -10,7 +10,7 @@ a {
 }
 
 .v1_56 {
-  width: 100%;
+  width: 1500px;
   height: 1024px;
   background: rgba(43,103,119,1);
   opacity: 1;
@@ -32,7 +32,7 @@ a {
   text-align: left;
 }
 .v1_58 {
-  width: 100%;
+  width: 1400px;
   height: 856px;
   background: rgba(200,216,228,1);
   opacity: 1;
@@ -225,11 +225,11 @@ a {
   text-align: left;
 }
 .v48_185 {
-  width: 175px;
+  width: 200px;
   color: rgba(0,0,0,1);
   position: absolute;
   top: 565px;
-  left: 141px;
+  left: 135px;
   font-family: Inter;
   font-weight: Light;
   font-size: 16px;
@@ -282,6 +282,7 @@ a {
   top: 468px;
   left: 73px;
   overflow: hidden;
+  
 }
 
 

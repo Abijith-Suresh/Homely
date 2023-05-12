@@ -1,30 +1,78 @@
 <!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+  <link href="/static/home.css" rel="stylesheet" />
+  <style>
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .v1_9,
+.v1_17 {
+  font-weight: bold;
+}
+.v1_19 {
+  white-space: nowrap;
+}
 
-<style>
-    .v1_16 {
-    width: 57px;
-    height: 67px;
-    background: rgba(255,255,255,1);
+    
+    
+</style>
+  <title>Home</title>
+</head>
+<body>
+  <div class="v1_2">
+    
+    {% if authenticated is None %}
+    <style>
+      .v1_3 {
+    width: 190px;
+    height: 48px;
+    background: rgba(82,171,152,1);
     opacity: 1;
     position: absolute;
-    top: 549px;
-    left: 118px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    top: 32px;
+    left: 1201px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     overflow: hidden;
   }
-  </style>
-{% extends 'home.html' %}
-<html>
-
-  
- <body>
-  {% block content %}
-  
-  <a href="/info" class="v1_4">ACCOUNT</a>
-  
-{% endblock %}
-</body> 
+    </style>
+    <div class="v1_3"></div>
+    <a href="/loginpage" class="v1_4">LOGIN</a>
+    {% else %}
+    <style>
+      .v1_3 {
+    width: 69px;
+    height: 69px;
+    background: url("/static/images/usertag.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+    position: absolute;
+    top: 20px;
+    left: 1250px;
+    overflow: hidden;
+    border-radius: 25%;
+  } </style>
+    <a href="/info" class="v1_3"></a>
+    {% endif %}
+    <a href="/blog" class="v1_5">BLOG</a>
+    <a href="/aboutus" class="v1_6">ABOUT US</a>
+    <a href="/home1" class="v1_7">HOMELY</a>
+    <div class="v1_8"></div>
+    <a href="/listform" class="v1_9">SELL</a>
+    <span class="v1_11">We provide a listing platform for the sale and purchase of properties</span>
+    <div class="v1_12"></div>
+    <span class="v1_15">Easy way to find the perfect property</span>
+    <div class="v1_16"></div>
+    <a href="/buypage" class="v1_17">BUY</a>
+    <div class="v1_18"></div>
+    <span class="v1_19">Enter your location</span>
+  </div>
+</body>
 </html>

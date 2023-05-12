@@ -6,8 +6,8 @@
   }
   
   .v1_2 {
-    width: 100%;
-    height: 1024px;
+    width: 1500px;
+    height: 800px;
     background: rgba(43,103,119,1);
     opacity: 1;
     position: relative;
@@ -15,21 +15,7 @@
     left: 0px;
     overflow: hidden;
   }
-  .v1_3 {
-    width: 190px;
-    height: 48px;
-    background: rgba(82,171,152,1);
-    opacity: 1;
-    position: absolute;
-    top: 32px;
-    left: 1201px;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-  }
+  
   .v1_4 {
     width: 62px;
     color: rgba(0,0,0,1);
@@ -80,7 +66,7 @@
     text-align: left;
   }
   .v1_8 {
-    width: 100%;
+    width: 1375px;
     height: 578px;
     background: rgba(200,216,228,1);
     opacity: 1;
@@ -128,7 +114,7 @@
     opacity: 1;
     position: absolute;
     top: 138px;
-    left: 720px;
+    left: 750px;
     border-top-left-radius: 34px;
     border-top-right-radius: 34px;
     border-bottom-left-radius: 34px;
