@@ -7,8 +7,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 import pickle
 import os
-from .models import Listing,userwishlist
+from .models import Listing,userwishlist,modeldata
 import random
+from django.db import models
+#from .models import MLModel
+
+
 
 model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'SavedModels', 'modelsrandom_forest_regressor.pkl')
 
@@ -23,8 +27,8 @@ def deleteproperty(request):
    return redirect('/login') 
 
 
-
-
+def start(request):
+    return  redirect('/home1')
 
 def wishlistproperty(request):
  if request.user.is_authenticated:
@@ -33,17 +37,96 @@ def wishlistproperty(request):
    if userwishlist.objects.filter(user=user, listingid=listing_id).exists():
        listings = userwishlist.objects.filter(listingid=listing_id)
        listings.delete()
+       return redirect(f'/property/?id={listing_id}')
    else:
       wishlist=userwishlist(user=user,listingid=listing_id)
       wishlist.save()
-   return redirect('/wishlist')
+   return redirect(f'/property/?id={listing_id}')
  else:
    return redirect('/loginpage') 
 
 
 
+def train():
+    import pandas as pd
+    import numpy as np
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.model_selection import StratifiedShuffleSplit, cross_val_score, cross_validate, GridSearchCV
+    from sklearn.ensemble import RandomForestRegressor
+    modeldata_values = modeldata.objects.values(
+    'livingAreaSqFt',
+    'numOfBathrooms',
+    'lotSizeSqFt',
+    'numOfBedrooms',
+    'numOfStories',
+    'numOfPhotos',
+    'hasSpa',
+    'hasView',
+    'numOfPatioAndPorchFeatures',
+    'numOfParkingFeatures',
+    'latest_saleyear',
+    'numOfSecurityFeatures',
+    'latestPrice'
+    )
+
+    
+    housing_data = 'modeldata.csv'
+    import csv
+
+# Write the modeldata_values to the CSV file
+    with open(housing_data, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(modeldata_values[0].keys())  # Write the header row
+        for row in modeldata_values:
+            writer.writerow(row.values())
+    housing_data=pd.read_csv(housing_data)
+    selected_features = list(housing_data.iloc[:, :-1])
+    def standardize_dataframe(df, scaler=None):
+    # Convert boolean columns to numerical (0 or 1); and standardize numerical columns
+        bool_df = df[[col for col in df.columns if df.dtypes[col] == 'bool']].astype('float64')
+        num_df = df[[col for col in df.columns if df.dtypes[col] == 'float64'
+                     or df.dtypes[col] == 'int64']]
+    # If scaler is given, use it. Otherwise train a new scaler on the numerical columns.
+        if(scaler==None):
+            scaler = StandardScaler().fit(num_df)
+        num_df = pd.DataFrame(scaler.transform(num_df), columns=num_df.columns)
+    
+    # Ensure that bool_df has ascending indices just like num_df (since scaling resets indices)
+        bool_df = bool_df.reset_index().drop(['index'], axis=1)
+    
+        return num_df.join(bool_df), scaler
+    test_size = 0.2
+    intervals = [0, 250000, 400000, 600000, 800000, 1500000, housing_data['latestPrice'].max()]
+    intervals.sort()
+    price_categories = pd.cut(housing_data['latestPrice'], intervals)
+
+# Split into training and test sets
+    split_func = StratifiedShuffleSplit(n_splits=1, test_size=test_size, random_state=46)
+    indices = list(split_func.split(housing_data, price_categories))[0]
+    training_data, test_data = housing_data.iloc[indices[0]], housing_data.iloc[indices[1]]
+    x_train, y_train = training_data[selected_features], training_data['latestPrice']
+    x_test, y_test = test_data[selected_features], test_data['latestPrice']
+    y_train, y_test = y_train.reset_index()['latestPrice'], y_test.reset_index()['latestPrice']
+
+    # Standardize the sets (using only parameters from training set)
+    x_train, scaler = standardize_dataframe(x_train)
+    x_test, _ = standardize_dataframe(x_test, scaler)
+    # Full sets standardized
+    x, y = pd.concat([x_train, x_test], ignore_index=True), pd.concat([y_train, y_test], ignore_index=True)
+    model_dir = model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'SavedModels')
+    random_forest_regressor_name = "modelsrandom_forest_regressor2"
+
+    def save_sklearn_model(model, model_name):
+        with open(model_dir+'/'+model_name + '.pkl', 'wb') as file:  
+           pickle.dump(model, file)
+    model = RandomForestRegressor()
+    model = RandomForestRegressor(n_estimators=100, max_features=4)
+    model.fit(x_train, y_train)
+    save_sklearn_model(model, random_forest_regressor_name)
 
 
+
+global k
 def predicted(request):
    property_name = request.POST.get('property_name')
    price = request.POST.get('price')
@@ -61,6 +144,7 @@ def predicted(request):
    bedrooms=request.POST.get('bedrooms')
    bathrooms=request.POST.get('bathrooms')
    floors=request.POST.get('floors')
+   image=request.FILES.get('image')
    context= {
 'property_name': property_name ,
 'price': price ,
@@ -84,10 +168,14 @@ def predicted(request):
    association=choose[association]
    with open(model_path, 'rb') as f:
     model = pickle.load(f)
-   data = [longitude,bathrooms,area,bedrooms,floors,random.randint(4,10),spa,association,parking_space,garage_space,cooling,heating]
+   global k
+   k=random.randint(5,50)
+   data = [longitude,bathrooms,area,bedrooms,floors,k,spa,association,parking_space,garage_space,cooling,heating]
    new_data=[data,data]
+   #model=MLModel()
    predictions = model.predict(new_data)
    context['EstimatedPrice']= predictions[0]
+   
    return render(request, 'listform.html',context)
 
 
@@ -103,8 +191,11 @@ def generate_listing_id():
             return listing_id
         
 
+import threading
 
-
+def train_async():
+    # Perform the training asynchronously
+    train()
 
 def submit(request):
    if request.method == 'POST':
@@ -127,11 +218,23 @@ def submit(request):
         bedrooms=request.POST.get('bedrooms')
         bathrooms=request.POST.get('bathrooms')
         floors=request.POST.get('floors')
+        image=request.FILES.get('image')
         listing = Listing(listing_id=listing_id, user=user, property_name=property_name, estimated_price=estimated_price,price=price,
                           description=description,location=location,feature=feature,address=address,area=area,garage_space=garage_space,
                           parking_space=parking_space,spa=spa,association=association,heating=heating,cooling=cooling,bedrooms=bedrooms,
-                          bathrooms=bathrooms,floors=floors)
+                          bathrooms=bathrooms,floors=floors,image=image)
         listing.save()
+        choose={'Yes':1,'No':0}
+        spa=choose[spa]
+        association=choose[association]
+        choose=[False,True]
+        listing = modeldata(livingAreaSqFt =float(feature),numOfBathrooms=float(bathrooms),lotSizeSqFt =float(area), numOfBedrooms =int(bedrooms),numOfStories =int(floors),
+                          numOfPhotos =int(k),hasSpa =bool(choose[spa]),hasView =bool(choose[association]),numOfPatioAndPorchFeatures =int(parking_space),numOfParkingFeatures =int(garage_space),latest_saleyear =int(cooling),
+                          numOfSecurityFeatures =int(heating),latestPrice =price)
+        listing.save()
+        training_thread = threading.Thread(target=train_async)
+        training_thread.start()
+        #train()
         return redirect('/listings')  
    return redirect('/info')
 
@@ -147,11 +250,16 @@ def aboutus(request):
 
 
 def home1(request):
+  listings = Listing.objects.all()
+  # Create a list of dictionaries containing the property name and estimated price for each listing
+  data = [{'image': listing.image.url,'property_name': listing.property_name, 'price': listing.price ,'id': listing.listing_id} for listing in listings]
+  data=data[-4:]
+  context = {'data': data}
   if request.user.is_authenticated:
-     context={'authenticated':1}
+     context['authenticated']=1
      return render(request,'home1.html',context)
   else:
-     return render(request,'home1.html')
+     return render(request,'home1.html',context)
 
 
 
@@ -159,15 +267,6 @@ def home1(request):
 
 def blog(request):
    return render(request,'blog.html')
-'''def home2(request):
-  if request.user.is_authenticated:
-     context={'authenticated':1}
-     return render(request,'home2.html',context)
-  else:
-     return render(request,'home2.html')'''
-
-
-
 
 
 def loginpage(request):
@@ -182,9 +281,28 @@ def loginpage(request):
 
 
 def buypage(request):
-  listings = Listing.objects.all()
-
-  data = [{'property_name': listing.property_name, 'estimated_price': listing.estimated_price ,'id': listing.listing_id} for listing in listings]
+  
+  if request.method == 'POST':
+     location=request.POST.get('location')
+     price=request.POST.get('price')
+     area=request.POST.get('area')
+     if location:
+        listings = Listing.objects.filter(location=location)
+     else:
+        listings = Listing.objects.all()
+     if price:
+        if int(price)==1:
+           listings = listings.order_by('-price')
+        else:
+           listings = listings.order_by('price')
+     if area:
+        if int(area)==1:
+           listings = listings.order_by('-area')
+        else:
+           listings = listings.order_by('area')
+  else:
+        listings = Listing.objects.all()
+  data = [{'property_name': listing.property_name, 'price': listing.price ,'id': listing.listing_id,'image':listing.image.url} for listing in listings]
   context = {'data': data}
   if request.user.is_authenticated:
      context['authenticated']=1
@@ -217,8 +335,17 @@ def property(request):
      context['authenticated']=1
      user_profile = context['data'].user.userprofile
      context['no']=user_profile.phone_number
+     wishlistings = userwishlist.objects.filter(user=request.user)
+     if wishlistings:
+        listing_ids = [wishlist.listingid for wishlist in wishlistings]
+        if id in listing_ids:
+           context['wishlisted']=1
+     
   if request.user==listing[0].user:
      context['usersame']=1
+  
+        
+  #print(listing[0].image)
   return render(request, 'property.html',context)
 
 
@@ -242,8 +369,10 @@ def wishlist(request):
     wishlistings = userwishlist.objects.filter(user=request.user)
     listing_ids = [wishlist.listingid for wishlist in wishlistings]
     listings = Listing.objects.filter(listing_id__in=listing_ids)
-    data = [{'property_name': listing.property_name, 'estimated_price': listing.estimated_price ,'id': listing.listing_id} for listing in listings]
+    data = [{'property_name': listing.property_name, 'price': listing.price ,'id': listing.listing_id,'image': listing.image.url} for listing in listings]
+    data.append({'image': '/static/images/add.jpg'})
     context = {'data': data}
+    context['wishlist']=1
     if len(context) > 0:
       return render(request, 'wishlist.html',context)
     else:
@@ -261,7 +390,8 @@ def listings(request):
         listings = Listing.objects.filter(user=request.user)
 
         # Create a list of dictionaries containing the property name and estimated price for each listing
-        data = [{'property_name': listing.property_name, 'estimated_price': listing.estimated_price ,'id': listing.listing_id} for listing in listings]
+        data = [{'image': listing.image.url,'property_name': listing.property_name, 'price': listing.price ,'id': listing.listing_id} for listing in listings]
+        data.append({'image': '/static/images/add.jpg'})
         context = {'data': data}
         if len(context) > 0:
           return render(request, 'listings.html',context)

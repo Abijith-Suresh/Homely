@@ -6,6 +6,9 @@
         <title>Document</title>
     </head>
     <style>
+      body {
+        background: rgba(43,103,119,1);
+      }
     a {
         text-decoration: none;
       }
@@ -36,23 +39,33 @@
             {% for property in data %}
             <style>
               .v124_78-{{ forloop.counter }}{
-  width: 349px;
-  height: 436px;
+  width: 262px;
+  height: 350px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   opacity: 1;
   position: relative;
-  margin-right: 70px;
-  margin-bottom: 60px;
+  margin-right: 50px;
+  margin-bottom: 40px;
   display: inline-block;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+  border-top-left-radius: 39px;
+  border-top-right-radius: 39px;
+  border-bottom-left-radius: 39px;
+  border-bottom-right-radius: 39px;
   top: 282px;
   left: 117px;
   overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.v124_78-{{ forloop.counter }}:hover {
+  transform: scale(1.05);
 }
 .v124_79-{{ forloop.counter }} {
-  width: 348px;
-  height: 436px;
+  width: 260px;
+  height: 350px;
   background: rgba(242,242,242,1);
   opacity: 1;
   position: absolute;
@@ -65,9 +78,9 @@
   overflow: hidden;
 }
 .v124_80-{{ forloop.counter }} {
-  width: 349px;
-  height: 286px;
-  background: url("/static/images/listing1.png") no-repeat center;
+  width: 262px;
+  height: 220px;
+  background: url('{{property.image}}') no-repeat center;
   background-size: cover;
   opacity: 1;
   position: relative;
@@ -77,35 +90,49 @@
 
 
 .v124_81-{{ forloop.counter }} {
-  width: 295px;
+  width: 208px;
   color: rgba(0,0,0,1);
   position: absolute;
-  top: 310px;
+  top: 250px;
   left: 27px;
   font-family: Inter;
   font-weight: Medium;
-  font-size: 32px;
+  font-size: 28px;
   opacity: 1;
   text-align: center;
 }
 .v124_82-{{ forloop.counter }} {
-  width: 295px;
+  width: 208px;
   color: rgba(0,0,0,1);
   position: absolute;
-  top: 373px;
+  top: 300px;
   left: 27px;
   font-family: Inter;
   font-weight: Regular;
-  font-size: 24px;
+  font-size: 20px;
   opacity: 1;
   text-align: center;
 }
 </style>
             <div class="v124_78-{{ forloop.counter }}">
+            {% if property.id%}
                 <a href="/property/?id={{property.id}}" class="v124_79-{{ forloop.counter }}"></a>
                 <div class="v124_80-{{ forloop.counter }}"></div>
                 <a href="/property/?id={{property.id}}" class="v124_81-{{ forloop.counter }}">{{property.property_name}}</a>
-                <a href="/property/?id={{property.id}}" class="v124_82-{{ forloop.counter }}">${{property.estimated_price}}</a>
+                <a href="/property/?id={{property.id}}" class="v124_82-{{ forloop.counter }}">${{property.price}}</a>
+            {%else %}
+            {% if wishlist is none %}
+            <a href="/listform" class="v124_79-{{ forloop.counter }}"></a>
+            <div class="v124_80-{{ forloop.counter }}"></div>
+            <a href="/listform" class="v124_81-{{ forloop.counter }}">{{property.property_name}}</a>
+            <a href="/listform" class="v124_82-{{ forloop.counter }}">{{property.price}}</a>
+            {%else%}
+            <a href="/buypage" class="v124_79-{{ forloop.counter }}"></a>
+            <div class="v124_80-{{ forloop.counter }}"></div>
+            <a href="/buypage" class="v124_81-{{ forloop.counter }}">{{property.property_name}}</a>
+            <a href="/buypage" class="v124_82-{{ forloop.counter }}">{{property.price}}</a>
+            {%endif %}
+            {%endif %}
             </div>
             {% endfor %}
             <div class="v124_92">

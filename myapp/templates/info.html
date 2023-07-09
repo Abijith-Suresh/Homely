@@ -22,6 +22,9 @@
         <title>Document</title>
     </head>
     <style>
+      body{
+        background: rgba(43,103,119,1);
+      }
     a {
         text-decoration: none;
       }
@@ -48,7 +51,7 @@
         <div class="v48_36">
             <a href="/home1" class="v48_37">HOMELY</a>
             <div class="v48_38"></div>
-            <a href="/info" class="v48_123"></a>
+            <!--<a href="/info" class="v48_123"></a>-->
                 
             <div class="v112_6">
                 <div class="v112_7">
@@ -71,23 +74,27 @@
                 <div class="v112_23"></div>
                 <a href="/logoutuser" class="v112_24">LOGOUT</a>
             </div>
+            <div class="first">First Name</div>
             <div class="v112_33">
                 <div class="v112_34"></div>
-                <span class="v112_35">First Name:  {{ first_name }}</span>
+                <span class="v112_35">{{ first_name }}</span>
             </div>
+            <div class="phone">Phone Number</div>
             <div class="v112_37">
                 <div class="v112_38"></div>
-                <span class="v112_39">Phone Number:  {{ phone_number }}</span>
+                <span class="v112_39">{{ phone_number }}</span>
             </div>
+            <div class="last">Last Name</div>
             <div class="v112_28">
                 <div class="v112_29"></div>
                 <div class="v112_36"></div>
-                <span class="v112_30">Last Name: {{ last_name }}</span>
+                <span class="v112_30">{{ last_name }}</span>
             </div>
+            <div class="email">Email</div>
             <div class="v112_40">
                 <div class="v112_41"></div>
                 <div class="v112_42"></div>
-                <span class="v112_43">Email: {{ email }}</span>
+                <span class="v112_43">{{ email }}</span>
             </div>
             
             <span class="v112_31">Personal Details</span>
